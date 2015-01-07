@@ -1,23 +1,18 @@
-function [ G ] = construct_grad_matrix( V, F)
+function [ G ] = compute_grad_matrix( V, F)
 
-nv = size(V, 2);
 nf = size(F, 2);
 
-Gi = zeros(nf*9, 0);
-Gj = zeros(nf*9, 0);
-Gs = zeros(nf*9, 0);
+Gi = zeros(nf*9, 1);
+Gj = zeros(nf*9, 1);
+Gs = zeros(nf*9, 1);
 
 for i = 1:nf
     face = F(:, i);
     % gradients of barycentric functions
     [g1, g2, g3] = triangle_grad( V(:, face(1)), V(:, face(2)),  V(:, face(3)));    
-    Gs(9*i - 8 : 9*i ) = reshape([g1, g2, g3], 9, 1);
-    
-    for j = 0:2
-        idx = 3*i + 3*j;
-        Gi(idx - 2: idx) = ones(3, 1) * (3*i + j - 2);
-        Gj(idx - 2: idx) = face;
-    end
+    Gs(9*i - 8 : 9*i ) = [g1; g2; g3];
+    Gi(9*i - 8 : 9*i ) = repmat( [3*i-2:3*i]', 3, 1);
+    Gj(9*i - 8 : 9*i ) = [ones(3, 1)*face(1); ones(3, 1)*face(2); ones(3, 1)*face(3)];
 end
 G = sparse(Gi, Gj, Gs);
 
