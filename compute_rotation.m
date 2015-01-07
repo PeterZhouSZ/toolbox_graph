@@ -13,4 +13,4 @@ v = v/norm(v,'fro');
 S = [0   -v(3) v(2);
     v(3)   0  -v(1);
     -v(2)  v(1) 0];
-M = v*transp(v) + cos(alpha)*(eye(3) - v*transp(v)) + sin(alpha)*S;
+M = v*v' + cos(alpha)*(eye(3) - v*v') + sin(alpha)*S;
