@@ -5,8 +5,12 @@ nF = size(F, 2);
 areas = zeros(1, nF);
 for i = 1:nF
     face = F(:, i);
-    areas(i) = norm(cross( V(:, face(2)) - V(:, face(1)), ...
-                           V(:, face(3)) - V(:, face(1)))) * 0.5;
+    e1 = V(:, face(2)) - V(:, face(1));
+    e2 =  V(:, face(3)) - V(:, face(1));
+    a = [ e1(2).*e2(3)-e1(3).*e2(2);
+          e1(3).*e2(1)-e1(1).*e2(3);
+          e1(1).*e2(2)-e1(2).*e2(1)];
+    areas(i) = 0.5 * (a'*a)^0.5;
 end
 
 end
