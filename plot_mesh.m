@@ -27,9 +27,8 @@ normal_scaling  = getoptions(options, 'normal_scaling', .8);
 light = getoptions(options, 'light', false);
 face_vertex_color = getoptions(options, 'face_vertex_color',  ones(size(vertex))'*0.5); 
 
-
+%% 2D triangulation
 if size(vertex,1)==2
-    % 2D triangulation
     % vertex = cat(1,vertex, zeros(1,size(vertex,2)));
     plot_graph(triangulation2adjacency(face),vertex);
     return;
@@ -38,9 +37,8 @@ end
 % can flip to accept data in correct ordering
 [vertex,face] = check_face_vertex(vertex,face);
 
+%% tet mesh 
 if size(face,1)==4
-    %%%% tet mesh %%%%
-
     % normal to the plane <x,w><=a
     w = getoptions(options, 'cutting_plane', [0.2 0 1]');
     w = w(:)/sqrt(sum(w.^2));
@@ -89,7 +87,7 @@ if size(face,1)==4
     return;    
 end
 
-
+%% 3D mesh
 vertex = vertex';
 face = face';
 
@@ -115,7 +113,6 @@ cameratoolbar('show')
 cameratoolbar('SetMode', 'orbit');
 cameratoolbar('SetCoordSys','none');
  
-    
 % colormap gray(256);
 lighting phong;
 
