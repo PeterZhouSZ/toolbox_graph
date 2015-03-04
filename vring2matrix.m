@@ -1,6 +1,6 @@
 function [ mat ] = vring2matrix( vring , sring)
-%VRING2MATRIX Summary of this function goes here
-%   Detailed explanation goes here
+% vring : contains adjacency information
+% sring : contains value information 
 
 n = max(size(vring));
 m = 0;

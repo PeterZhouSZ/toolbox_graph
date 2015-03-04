@@ -13,7 +13,7 @@ for k = 1:nf
 	for h = 1:3
 		k1 = fring{k}(h);
 		dp = pos(:, k1) - pos(:, k);
-		weight(h) = 1 / (dp'*dp)^0.5;
+		weight(h) = exp( - 0.5 * (dp'*dp));
     end
     sw = sum(weight);
     
