@@ -43,8 +43,8 @@ if isempty(i)
     end
     i = strfind(file,'.');
 end
-ext = file(i+1:end);
-name = file(1:i-1);
+ext = file(i(end)+1:end);
+name = file(1:i(end)-1);
 
 switch lower(ext)
     case 'off'
