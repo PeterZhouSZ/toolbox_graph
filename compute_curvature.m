@@ -21,35 +21,32 @@ function [Umin,Umax,Cmin,Cmax,Cmean,Cgauss,Normal] = compute_curvature(vertex,fa
 %       In Proc. 19th Annual ACM Symposium on Computational Geometry, 
 %       pages 237-246, 2003. 
 %   and also in
-%       Pierre Alliez, David Cohen-Steiner, Olivier Devillers, Bruno LeŽvy, and Mathieu Desbrun. 
+%       Pierre Alliez, David Cohen-Steiner, Olivier Devillers, Bruno LeÅ½vy, and Mathieu Desbrun. 
 %       Anisotropic Polygonal Remeshing. 
 %       ACM Transactions on Graphics, 2003. 
 %       Note: SIGGRAPH '2003 Conference Proceedings
 %
 %   Copyright (c) 2007 Gabriel Peyre
 
+%% check input
 orient = 1;
 
 options.null = 0;
 naver = getoptions(options, 'curvature_smoothing', 3);
 verb = getoptions(options, 'verb', 1);
-
 check_face_vertex(vertex,face);
 
+%% precompute
 n = size(vertex,2);
 m = size(face,2);
 
-% associate each edge to a pair of faces
-A = -triangulation2adjacency(face);
-
-i = [face(1,:) face(2,:) face(3,:)];
-j = [face(2,:) face(3,:) face(1,:)];
-s = [1:m 1:m 1:m];
-A = sparse(i,j,s,n,n); 
+normal = compute_face_normal(vertex,face);
+A = compute_edge_face_ring(face);
 
 [i,j,s1] = find(A);     % direct link
 [i,j,s2] = find(A');    % reverse link
 
+% leave out boundary edge
 I = find( (s1>0) + (s2>0) == 2 );
 
 % links edge->faces
@@ -68,8 +65,6 @@ e = e ./ repmat(d,3,1);
 % avoid too large numerics
 d = d./mean(d);
 
-% normals to faces
-[tmp,normal] = compute_normal(vertex,face);
 
 % inner product of normals
 dp = sum( normal(:,E(:,1)) .* normal(:,E(:,2)), 1 );
