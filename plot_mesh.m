@@ -16,14 +16,12 @@ function h = plot_mesh(vertex,face,options)
 %   Copyright (c) 2004 Gabriel Peyré
 
 
-if nargin<2
-    error('Not enough arguments.');
-end
-
+%% check input
+if nargin<2, error('Not enough arguments.'); end
 options.null = 0;
+check_face_vertex(vertex,face);
 
-normal          = getoptions(options, 'normal', []);
-normal_scaling  = getoptions(options, 'normal_scaling', .8);
+
 light = getoptions(options, 'light', false);
 face_vertex_color = getoptions(options, 'face_vertex_color',  ones(size(vertex))'*0.5); 
 
@@ -33,9 +31,6 @@ if size(vertex,1)==2
     plot_graph(triangulation2adjacency(face),vertex);
     return;
 end
-
-% can flip to accept data in correct ordering
-[vertex,face] = check_face_vertex(vertex,face);
 
 %% tet mesh 
 if size(face,1)==4
@@ -96,24 +91,32 @@ if size(face_vertex_color,1)==size(vertex,1)
 else
     shading_type = 'flat';
 end
-h = patch('vertices',vertex,'faces',face,'FaceVertexCData',face_vertex_color, 'FaceColor',shading_type, 'EdgeColor', 'none');
 
-if ~isempty(normal)
-    % plot the normals
+h = patch('vertices',vertex,'faces',face,'FaceVertexCData',face_vertex_color, ...
+    'FaceColor',shading_type, 'EdgeColor', 'none');
+
+% plot the vertex normals
+normal = getoptions(options, 'normalv', []);
+if ~isempty(normal)   
     n = size(vertex,1);
+    if size(normal, 1) ~= n, normal = normal'; end
+    
+    normal_scaling  = getoptions(options, 'normal_scaling', .8);
     subsample_normal = getoptions(options, 'subsample_normal', min(4000/n,1) );
     sel = randperm(n); sel = sel(1:floor(end*subsample_normal));    
+    
     hold on;
-    quiver3(vertex(sel,1),vertex(sel,2),vertex(sel,3),normal(1,sel)',normal(2,sel)',normal(3,sel)',normal_scaling);
+    quiver3(vertex(sel,1),vertex(sel,2),vertex(sel,3), ...
+        normal(sel,1), normal(sel,1), normal(sel,1), normal_scaling);
     hold off;
 end
 
+%% camera options
 % cameramenu;
 cameratoolbar('show')
 cameratoolbar('SetMode', 'orbit');
 cameratoolbar('SetCoordSys','none');
  
-% colormap gray(256);
 lighting phong;
 
 camproj('perspective');

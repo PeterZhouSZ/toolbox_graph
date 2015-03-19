@@ -1,29 +1,14 @@
-function [vertex,face] = check_face_vertex(vertex,face, options)
+function check_face_vertex(V,F)
 
 % check_face_vertex - check that vertices and faces have the correct size
-%
-%   [vertex,face] = check_face_vertex(vertex,face);
-%
-%   Copyright (c) 2007 Gabriel Peyre
+%   check the first dimension of V and F   
 
-vertex = check_size(vertex,2,4);
-face = check_size(face,3,4);
+if size(V,1)<2 ||  size(V,1)>4
+    error('Vertices are not of correct size.');
+end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function a = check_size(a,vmin,vmax)
-if isempty(a)
-    return;
+if size(F,1)<3 ||  size(F,1)>4
+    error('Faces are not of correct size.');
 end
-if size(a,1)>size(a,2)
-    a = a';
-end
-if size(a,1)<3 && size(a,2)==3
-    a = a';
-end
-if size(a,1)<=3 && size(a,2)>=3 && sum(abs(a(:,3)))==0
-    % for flat triangles
-    a = a';
-end
-if size(a,1)<vmin ||  size(a,1)>vmax
-    error('face or vertex is not of correct size');
+
 end
