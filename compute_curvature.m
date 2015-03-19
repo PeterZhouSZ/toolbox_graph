@@ -34,7 +34,7 @@ options.null = 0;
 naver = getoptions(options, 'curvature_smoothing', 3);
 verb = getoptions(options, 'verb', 1);
 
-[vertex,face] = check_face_vertex(vertex,face);
+check_face_vertex(vertex,face);
 
 n = size(vertex,2);
 m = size(face,2);

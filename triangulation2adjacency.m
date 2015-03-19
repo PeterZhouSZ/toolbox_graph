@@ -10,7 +10,6 @@ function A = triangulation2adjacency(face,vertex)
 %   Copyright (c) 2005 Gabriel Peyré
 
 
-[tmp,face] = check_face_vertex([],face);
 f = double(face)';
 
 A = sparse([f(:,1); f(:,1); f(:,2); f(:,2); f(:,3); f(:,3)], ...

@@ -24,7 +24,7 @@ function [C,U,D] = compute_mesh_local_covariance(vertex,face,f,options)
 %   Copyright (c) 2007 Gabriel Peyre
 
 
-[vertex,face] = check_face_vertex(vertex,face);
+check_face_vertex(vertex,face);
 if size(f,1)>size(f,2)
     f = f';
 end

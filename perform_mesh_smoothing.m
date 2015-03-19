@@ -21,7 +21,7 @@ end
 if size(f,1)<size(f,2)
     f = f';
 end
-[vertex,face] = check_face_vertex(vertex,face);
+check_face_vertex(vertex,face);
 
 if size(f,2)>1
     for i=1:size(f,2)

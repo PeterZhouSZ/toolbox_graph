@@ -9,7 +9,7 @@ function [normal,normalf] = compute_normal(vertex,face)
 %
 %   Copyright (c) 2004 Gabriel Peyré
 
-[vertex,face] = check_face_vertex(vertex,face);
+check_face_vertex(vertex,face);
 
 nface = size(face,2);
 nvert = size(vertex,2);
