@@ -28,7 +28,7 @@ end
 if isfield(options, 'symmetrize')
     symmetrize = options.symmetrize;
 else
-    symmetrize = 1;
+    symmetrize = 0;
 end
 
 options.normalize = 0;

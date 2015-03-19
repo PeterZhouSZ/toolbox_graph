@@ -14,9 +14,9 @@ if d < 1.0e-10
     M = eye(3);    
 else
     v = v/d^0.5;
-    S = [0   -v(3) v(2);
-    v(3)   0  -v(1);
-    -v(2)  v(1) 0];
+    S = [ 0   -v(3) v(2);
+         v(3)  0   -v(1);
+        -v(2)  v(1) 0];
     M = v*v' + cos(alpha)*(eye(3) - v*v') + sin(alpha)*S;
 end
 

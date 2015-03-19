@@ -1,4 +1,4 @@
-function vring = compute_vertex_ring(face)
+function vring = compute_vertex_ring(F)
 
 % compute_vertex_ring - compute the 1 ring of each vertex in a triangulation.
 %
@@ -6,19 +6,13 @@ function vring = compute_vertex_ring(face)
 %
 %   vring{i} is the set of vertices that are adjacent
 %   to vertex i.
-%
-%   Copyright (c) 2004 Gabriel Peyré
 
-[tmp,face] = check_face_vertex([],face);
+i = [F(1,:) F(2,:) F(3,:)];
+j = [F(2,:) F(3,:) F(1,:)] ;
 
-nverts = max(max(face));
+n = length(i);
+vring{n} = [];
 
-A = triangulation2adjacency(face);
-[i,j,s] = find(sparse(A));
-
-% create empty cell array
-vring{nverts} = [];
-
-for m = 1:length(i)
+for m = 1:n
     vring{i(m)}(end+1) = j(m);
 end

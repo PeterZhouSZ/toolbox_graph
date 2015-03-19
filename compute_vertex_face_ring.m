@@ -1,4 +1,4 @@
-function ring = compute_vertex_face_ring(face)
+function ring = compute_vertex_face_ring(F)
 
 % compute_vertex_face_ring - compute the faces adjacent to each vertex
 %
@@ -6,15 +6,13 @@ function ring = compute_vertex_face_ring(face)
 %
 %   Copyright (c) 2007 Gabriel Peyr?
 
-[tmp,face] = check_face_vertex([],face);
+nf = size(F,2);
+nv = max(F(:));
 
-nfaces = size(face,2);
-nverts = max(face(:));
+ring{nv} = [];
 
-ring{nverts} = [];
-
-for i=1:nfaces
+for i=1:nf
     for k=1:3
-        ring{face(k,i)}(end+1) = i;
+        ring{F(k,i)}(end+1) = i;
     end
 end
