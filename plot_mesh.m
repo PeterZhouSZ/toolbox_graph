@@ -125,7 +125,7 @@ axis off;
 % axis tight;
 axis equal;
 
-if light || strcmp(shading_type, 'interp');
+if light % || strcmp(shading_type, 'interp')
     shading interp;
     camlight;
     camlight infinite; 
