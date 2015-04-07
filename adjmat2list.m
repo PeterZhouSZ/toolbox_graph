@@ -1,4 +1,4 @@
-function adj_list = adjmatrix2list(A)
+function adj_list = adjmat2list(A)
 
 %   adjmatrix2list - convert from matrix adjacency representation
 %       to list adjacency. The adjacency can be a weighted matrix, 
@@ -8,12 +8,21 @@ function adj_list = adjmatrix2list(A)
 %
 %   adj_list is a cell array of vector, adj_list{i}
 %   is the set of vertices linked to i.
-%
-%   Copyright (c) 2004 Gabriel Peyré
+
 
 n = size(A,1);
+adj_list = cell(1, n);
 
-for i=1:n
-    I = find( and( A(i,:)>0,  A(i,:)~=Inf) );
-    adj_list{i} = I;
+[Ai, Aj, ~] = find(A);
+
+j = 1; j2 = 1;
+for i=1:length(Ai);
+	if Aj(i) ~= j
+		j1 = j2;
+		j2 = i;
+		adj_list{j} = Ai(j1:j2-1);
+		j = j + 1;
+	end
 end
+
+adj_list{j} = Ai(j2:end);

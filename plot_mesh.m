@@ -120,17 +120,15 @@ cameratoolbar('SetCoordSys','none');
 lighting phong;
 
 camproj('perspective');
-axis square; 
-axis off;
-% axis tight;
-axis equal;
+axis square; axis off; axis tight; axis equal;
 
 if light % || strcmp(shading_type, 'interp')
-    shading interp;
-    camlight;
-    camlight infinite; 
-    camlight(135, 60); camlight(225, 30);
-    camlight(180, -60); 
+%     shading interp;
+    camlight left;
+    camlight right;
+%     camlight infinite; 
+%     camlight(135, 60); camlight(225, 30);
+%     camlight(180, -60); 
     material([0.4 0.5 0.5])
 end
 
