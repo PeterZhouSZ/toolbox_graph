@@ -1,48 +1,23 @@
-function G = compute_mesh_gradient(vertex,face,type,options)
-
+function [G, Gs] = compute_mesh_gradient(V, F)
 % compute_mesh_laplacian - compute a gradient matrix
-%
-%   G = compute_mesh_gradient(vertex,face,type,options);
-%
-%   G is an (m,n) matrix where n is the number of vertex and m the number
-%   of edges in the mesh (we assume edges are oriented).
-%
-%   One has G((i,j),k)=sqrt(W(i,j)) if i==k and 
-%   G((i,j),k)=-sqrt(W(i,j)) if j==k.
-%   (in this definition we assume that i<j)
-%
-%   One has L=G'*G where L is the laplacian matrix.
-%
-%   Copyright (c) 2007 Gabriel Peyre
 
-options.null = 0;
+e1 = V(:,F(2,:))-V(:,F(1,:));
+e2 = V(:,F(3,:))-V(:,F(2,:));
+e3 = V(:,F(1,:))-V(:,F(3,:));
 
-if isfield(options, 'normalize')
-    normalize = options.normalize;
-else
-    normalize = 1;
-end
+N = cross(e1, e2);
+d2 = sum(N.^2, 1); % may cause divide by zero 
 
-options.normalize = 0;
-W = compute_mesh_weight(vertex,face,type,options);
+% compute gradient matrix
+nf = size(F, 2);
+G = zeros(3, 3, nf);
+G(:, 1, :) = bsxfun(@rdivide, cross(N, e2), d2);
+G(:, 2, :) = bsxfun(@rdivide, cross(N, e3), d2);
+G(:, 3, :) = bsxfun(@rdivide, cross(N, e1), d2);
 
-%% compute list of edges
-[i,j,s] = find(sparse(W));
-I = find(i<j);
-i = i(I);
-j = j(I);
-s = sqrt(s(I));
-% number of edges
-m = length(i);
-% number of vertices
-n = size(W,1);
+% construct sparse matrix
+i = repmat(reshape(1:3*nf, 3, 1, nf), 1, 3);
+j = repmat(reshape(F, 1, 3, nf), 3, 1);
+Gs = sparse(reshape(i, 9*nf, 1), reshape(j, 9*nf, 1), reshape(G, 9*nf, 1));
 
-%% build sparse matrix
-s = [s; -s];
-is = [(1:m)'; (1:m)'];
-js = [i(:); j(:)];
-G = sparse(is,js,s,m,n);
-
-if normalize
-    G = G*diag(sum(W,2).^(-1/2));
 end
