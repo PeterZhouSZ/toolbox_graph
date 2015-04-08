@@ -17,7 +17,7 @@ function W = compute_mesh_weight(V,F,type,options)
 %% check input
 options.null = 0;
 check_face_vertex(V,F);
-if nargin<3, type = 'conformal'; end
+type = getoptions(options, 'type', 'conformal');
 
 %% calc
 wi = [ F(1,:) F(2,:) F(3,:) ];
