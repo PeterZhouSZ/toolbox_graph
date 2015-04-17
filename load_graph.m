@@ -93,13 +93,13 @@ switch lower(name)
         
         vertex = rand(2,n);
         face = delaunay(vertex(1,:), vertex(2,:));
-        A = triangulation2adjacency(face,vertex);
+        A = tri2adjmat(face,vertex);
     
     case 'randn_triangulation'
         
         vertex = randn(2,n);
         face = delaunay(vertex(1,:), vertex(2,:));
-        A = triangulation2adjacency(face,vertex);
+        A = tri2adjmat(face,vertex);
     
     case 'rand_clusters_triangulation'
         
@@ -114,7 +114,7 @@ switch lower(name)
             vertex = [vertex v];
         end
         face = delaunay(vertex(1,:), vertex(2,:));
-        A = triangulation2adjacency(face,vertex);
+        A = tri2adjmat(face,vertex);
         
     case 'rand_network'
 

@@ -43,8 +43,8 @@ int nb_start_points = 0;
 int nb_end_points = 0;
 fibheap_el** heap_pool = NULL;
 // sparse array
-int* irs = NULL; // returns a pointer to the row indices
-int* jcs = NULL;
+size_t* irs = NULL; // returns a pointer to the row indices
+size_t* jcs = NULL;
 
 typedef bool (*T_callback_insert_node)(int i, int ii);
 
