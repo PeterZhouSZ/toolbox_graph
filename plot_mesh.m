@@ -22,7 +22,7 @@ options.null = 0;
 check_face_vertex(vertex,face);
 
 
-light = getoptions(options, 'light', false);
+light = getoptions(options, 'light', true);
 face_vertex_color = getoptions(options, 'face_vertex_color',  ones(size(vertex))'*0.5); 
 
 %% 2D triangulation

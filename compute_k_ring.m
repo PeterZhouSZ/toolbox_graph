@@ -1,9 +1,10 @@
-function [ kring ] = compute_k_ring( ring, k )
+function [ kring ] = compute_k_ring( F, k )
 %COMPUTE_K_RING compute kring
 
-if k<1, kring = ring; return; end
-A = adjlist2mat(ring);
-Ak = (A^k > 0) - speye(size(A, 1));
-kring = adjmat2list(Ak);
+A = tri2adjmat(F);
+if k > 1
+	A = (A^k > 0) - speye(size(A, 1));
+end
+kring = adjmat2list(A);
     
 end

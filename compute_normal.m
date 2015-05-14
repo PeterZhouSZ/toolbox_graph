@@ -19,7 +19,7 @@ normalfw = bsxfun(@times, normalf, areas);
 for i = 1:size(F, 2)
     normal(:, F(:, i)) = normal(:, F(:, i)) + repmat(normalfw(:, i), 1, 3);
 end
-d = sqrt( sum(normal.^2,1) ); d(d<eps)=1;
+d = sqrt( sum(normal.^2,1) ); %d(d<eps)=1;
 normal = bsxfun(@rdivide, normal, d);
 
 end
