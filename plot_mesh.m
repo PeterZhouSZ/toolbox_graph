@@ -24,6 +24,7 @@ check_face_vertex(vertex,face);
 
 light = getoptions(options, 'light', true);
 face_vertex_color = getoptions(options, 'face_vertex_color',  ones(size(vertex))'*0.5); 
+edge_color = getoptions(options, 'edge_color', 'none');
 
 %% 2D triangulation
 if size(vertex,1)==2
@@ -93,7 +94,7 @@ else
 end
 
 h = patch('vertices',vertex,'faces',face,'FaceVertexCData',face_vertex_color, ...
-    'FaceColor',shading_type, 'EdgeColor', 'none');
+    'FaceColor',shading_type, 'EdgeColor', edge_color);
 
 % plot the vertex normals
 normal = getoptions(options, 'normalv', []);
