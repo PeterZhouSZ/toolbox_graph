@@ -9,9 +9,7 @@ function adj_list = adjmat2list(A)
 %   adj_list is a cell array of vector, adj_list{i}
 %   is the set of vertices linked to i.
 
-
-n = size(A,1);
-adj_list = cell(1, n);
+adj_list = cell(1, size(A,2));
 
 [Ai, Aj, ~] = find(A);
 
