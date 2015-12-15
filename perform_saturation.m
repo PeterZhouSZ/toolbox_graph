@@ -1,4 +1,4 @@
-function x = perform_saturation(x,tau,use_mad)
+function x = perform_saturation(x)
 
 % perform_saturation - saturate a vector for better contrast
 %
@@ -8,12 +8,6 @@ function x = perform_saturation(x,tau,use_mad)
 %
 %   copyright (c) 2007 Gabriel Peyre
 
-if nargin<2
-    tau = 1;
-end
-if nargin<3
-    use_mad = 1;
-end
 
 tau = 2;
 x = x-mean(x(:)); 

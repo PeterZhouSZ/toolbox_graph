@@ -1,53 +1,50 @@
-function [vertex,faces,normal] = read_obj(filename)
+function [V,F] = read_obj(filename)
+  % Reads a .obj mesh file and outputs the vertex and face list
+  % assumes a 3D triangle mesh and ignores everything but:
+  % v x y z and f i j k lines
+  % Input:
+  %  filename  string of obj file's path
+  %
+  % Output:
+  %  V  number of vertices x 3 array of vertex positions
+  %  F  number of faces x 3 array of face indices
+  % Example:
+  %  [V,F] = read_obj('path/to/your/mesh.obj');
+  %  trisurf(F,V(:,1),V(:,2),V(:,3),'FaceColor',[0.26,0.33,1.0 ]);
+  %  light('Position',[-1.0,-1.0,100.0],'Style','infinite');
+  %  lighting phong;
+  %
+  
+  V = zeros(3, 0);
+  F = zeros(3, 0);
+  vertex_index = 1;
+  face_index = 1;
+  fid = fopen(filename,'rt');
+  line = fgets(fid);
+  while ischar(line)
+    vertex = sscanf(line,'v %f %f %f');
+    face = sscanf(line,'f %d %d %d');
+    face_long = sscanf(line,'f %d/%d/%d %d/%d/%d %d/%d/%d');
 
-% read_obj - load a .obj file.
-%
-%   [vertex,face,normal] = read_obj(filename);
-%
-%   faces    : list of facesangle elements
-%   vertex  : node vertexinatates
-%   normal : normal vector list
-%
-%   Copyright (c) 2008 Gabriel Peyre
-
-fid = fopen(filename);
-if fid<0
-    error(['Cannot open ' filename '.']);
-end
-
-frewind(fid);
-a = fscanf(fid,'%c',1);
-if strcmp(a, 'P')
-    % This is the montreal neurological institute (MNI) specific ASCII facesangular mesh data structure.
-    % For FreeSurfer software, a slightly different data input coding is
-    % needed. It will be provided upon request.
-    fscanf(fid,'%f',5);
-    n_points=fscanf(fid,'%i',1);
-    vertex=fscanf(fid,'%f',[3,n_points]);
-    normal=fscanf(fid,'%f',[3,n_points]);
-    n_faces=fscanf(fid,'%i',1);
-    fscanf(fid,'%i',5+n_faces);
-    faces=fscanf(fid,'%i',[3,n_faces])'+1;
-    fclose(fid);
-    return;
-end
-
-frewind(fid);
-vertex = [];
-faces = [];
-while 1
-    s = fgetl(fid);
-    if ~ischar(s), 
-        break;
+    % see if line is vertex command if so add to vertices
+    if(size(vertex)>0)
+      V(:, vertex_index) = vertex;
+      vertex_index = vertex_index+1;
+    % see if line is simple face command if so add to faces
+    elseif(size(face)>0)
+      F(:, face_index) = face;
+      face_index = face_index+1;
+    % see if line is a long face command if so add to faces
+    elseif(size(face_long)>0)
+      % remove normal and texture indices
+      face_long = face_long(1:3:end);
+      F(:, face_index) = face_long;
+      face_index = face_index+1;
+    else
+      % fprintf('Ignored: %s',line);
     end
-    if ~isempty(s) && strcmp(s(1), 'f')
-        % face
-        faces(:,end+1) = sscanf(s(3:end), '%d %d %d');
-    end
-    if ~isempty(s) && strcmp(s(1), 'v')
-        % vertex
-        vertex(:,end+1) = sscanf(s(3:end), '%f %f %f');
-    end
-end
-fclose(fid);
 
+    line = fgets(fid);
+  end
+  fclose(fid);
+end

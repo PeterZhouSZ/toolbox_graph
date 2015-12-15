@@ -114,7 +114,7 @@ end
 
 %% camera options
 % cameramenu;
-cameratoolbar('show')
+cameratoolbar('show');
 cameratoolbar('SetMode', 'orbit');
 cameratoolbar('SetCoordSys','none');
  

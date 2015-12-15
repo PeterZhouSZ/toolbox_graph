@@ -6,5 +6,5 @@ si = reshape(repmat(1:nf, 3, 1), 3*nf, 1);
 sj = reshape(F, 3*nf, 1);
 
 matFV = sparse(si, sj, 1);
-matFF = matFV * matFV';
+matFF = (matFV * matFV' > 0) - speye(nf);
 FFvr = adjmat2list(matFF);

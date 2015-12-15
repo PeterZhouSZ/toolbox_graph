@@ -26,4 +26,4 @@ for i=1:n
     ai(n1:n2) = i;
     aj(n1:n2) = adj_list{i};
 end
-A = sparse(ai, aj, ones(m, 1));
+A = sparse(ai, aj, 1);
